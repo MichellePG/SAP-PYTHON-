@@ -53,3 +53,6 @@ Extract the contents of zip file in the path C:\nwrfcsdk
 You’ll see another nwrfcsdk folder inside C:\nwrfcsdk, cut and paste the contents from C:\nwrfcsdk\nwrfcsdk and move it to C:\nwrfcsdk folder.
 
 #### 5.
+Go to build PATH simply typing ‘environment’ in the search option next to windows logo.
+
+#### 6.
