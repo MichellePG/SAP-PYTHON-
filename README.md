@@ -42,7 +42,7 @@ Once the installation completes, make sure that the version of python from the c
 #### 1.
 Go to the website in the link below to download the NWRFCSDK 7.50 from SAP’s site. Please make sure to choose the right version to download.  Its important to have a S-user for this purpose and permissions to download the software. Please contact the administrator of your organization if you do not have one. 
 
-[Documentation](https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=DISPHIER&HEADER=Y&FUNCTIONBAR=N&EVENT=TREE&NE=NAVIGATE&ENR=01200314690100002214&V=MAINT)
+[NWRFCSDK](https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=DISPHIER&HEADER=Y&FUNCTIONBAR=N&EVENT=TREE&NE=NAVIGATE&ENR=01200314690100002214&V=MAINT)
 #### 2. 
 Create a folder ‘nwrfcsdk’ in C:\
 
