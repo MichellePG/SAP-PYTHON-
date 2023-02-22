@@ -104,7 +104,8 @@ Now with the data you can display results or use the computational abilities of 
 ## References:
 
 Some references that I followed to implemment the conection.
-[Connecting Python with SAP](https://blogs.sap.com/2020/06/09/connecting-python-with-sap-step-by-step-guide/)
 
+- [Connecting Python with SAP](https://blogs.sap.com/2020/06/09/connecting-python-with-sap-step-by-step-guide/)
 
-[PyRFC](https://github.com/SAP/PyRFC)
+- [PyRFC](https://github.com/SAP/PyRFC)
+
