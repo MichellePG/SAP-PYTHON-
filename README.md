@@ -43,7 +43,7 @@ This has multiple purposes that go from fetching data to analyzing purposes.
 
 #### 5. Go to build PATH simply typing ‘environment’ in the search option next to windows logo.
 
-#### 6. Go to build PATH following the path as: enviroment variables -> System variables -> Search for 'Path' and click edit. Now you have to make sure the variables C:\nwrfcsdk\lib and C:\nwrfcsdk\bin are in the Path if not you must create them. (Just to make sure also check the python paths are correctly guess).
+#### 6. Go to build PATH following the path as: enviroment variables -> System variables -> Search for 'Path' and click edit. Now you have to make sure the variables C:\nwrfcsdk\lib and C:\nwrfcsdk\bin are in the Path if not you must create them. (Just to make sure also check the python paths are correctly written).
 
 ### PyRFC & Cython installation:
 
