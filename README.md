@@ -74,6 +74,17 @@ Now the final step is to go to C:\nwrfcsdk\bin and double-click on rfcexec.exe f
 
 ## Code Implementation
 
+I have written a code here to connect to SAP ECC system. The archive is called 'Bottle_PyRFC'. 
+You need to copy and paste the code as it is in the Jupyter notebook screen that you opened previously and then run it from the Jupyter screen.
+The code work this way: First it opens a local html web that redirects you to the login page, this page has direct connection with the SAP server.
+In this page called 'Python (Bottle) & SAP - using PyRFC' you need to fill out the parameters to login. A brief explanation of each parameter:
+
+| Parameter     | Explanation     |
+| :------------ | :-------------- |
+| `User       ` | `The username you provide when you enter SAP Logon                          ` |
+| `Password   ` | `The password you provide when you enter SAP Logon                          ` |
+| `Ashost     ` | `The application server host to conect to, this should be the message server` |
+
 
 
 
