@@ -101,3 +101,10 @@ With a simple python editing tool like Jupyter Notebook, you’ll be able to suc
 Now with the data you can display results or use the computational abilities of python for data analytics/ predictive analytics and send the results back to SAP ECC.
 
 
+## References:
+
+Some references that I followed to implemment the conection.
+[Connecting Python with SAP](https://blogs.sap.com/2020/06/09/connecting-python-with-sap-step-by-step-guide/)
+
+
+[PyRFC](https://github.com/SAP/PyRFC)
