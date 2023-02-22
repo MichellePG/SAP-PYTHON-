@@ -64,5 +64,5 @@ Now you have to make sure the variables C:\nwrfcsdk\lib and C:\nwrfcsdk\bin are 
 #### 1.
 Make sure pip is installed in your python, type 'pip show pip'. If there is an error then you should install it following this guide: 
 
-[Pip Install]([https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=DISPHIER&HEADER=Y&FUNCTIONBAR=N&EVENT=TREE&NE=NAVIGATE&ENR=01200314690100002214&V=MAINT](https://pip.pypa.io/en/stable/installation)
+[PipInstall ([https://launchpad.support.sap.com/#/softwarecenter/template/products/_APP=00200682500000001943&_EVENT=DISPHIER&HEADER=Y&FUNCTIONBAR=N&EVENT=TREE&NE=NAVIGATE&ENR=01200314690100002214&V=MAINT](https://pip.pypa.io/en/stable/installation)
 
