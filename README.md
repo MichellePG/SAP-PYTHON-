@@ -64,5 +64,41 @@ Now you have to make sure the variables C:\nwrfcsdk\lib and C:\nwrfcsdk\bin are 
 #### 1.
 Make sure pip is installed in your python, type 'pip show pip'. If there is an error then you should install it following this guide: 
 
-[PipInstall](https://pip.pypa.io/en/stable/installation/)
+[Pip Install](https://pip.pypa.io/en/stable/installation/)
+
+#### 2. 
+To install Cython you need to run the following command in the cmd prompt:
+```bash
+  pip install cython
+```
+
+#### 3. 
+Now for the installation of PyRFC you can type the command 'wget https://github.com/SAP/PyRFC/releases/download/2.0.0/pyrfc-2.0.0-cp38-cp38-win_amd64.whl' in the cmd prompt. If wget doesn't work then you can download PyRFC following the guide of installation in https://github.com/SAP/PyRFC.
+
+#### 4. 
+Now that the installation of PyRFC is complete you need to type  ‘from pyrfc import connection’ in the command prompt, if it runs properly then it will not throw any errors and move on to a new command line. If it does not then it will throw an error. Based on the error you need to debug the issue by searching it in a browser or looking it up on GitHub.
+
+### Jupyter Notebook Installation:
+
+#### 1. 
+Type in the cmd prompt  ‘pip install jupyter’.
+
+#### 2.
+Once the installation is complete type ‘jupyter notebook’ to open an internet screen with Jupyter Notebook.
+
+#### 3.
+Now in Jupyter go to the dropdown option ‘New’ and select ‘Python 3’.
+
+#### 4. 
+It will open a new project screen. This is where we'll put the python code later.
+
+### File nwrfcsdk
+Now the final step is to go to C:\nwrfcsdk\bin and double-click on rfcexec.exe file and see if it runs properly. If it does then a pop-up command prompt will appear for a while and then disappear. This indicates that the installation was successful.
+
+
+## Code Implementation
+
+
+
+
 
