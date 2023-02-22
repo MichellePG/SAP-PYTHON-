@@ -81,9 +81,9 @@ In this page called 'Python (Bottle) & SAP - using PyRFC' you need to fill out t
 
 | Parameter     | Explanation     |
 | :------------ | :-------------- |
-| `User       ` | `The username you provide when you enter SAP Logon                          ` |
-| `Password   ` | `The password you provide when you enter SAP Logon                          ` |
-| `Ashost     ` | `The application server host to conect to, this should be the message server` |
+| `User`        | `The username you provide when you enter SAP Logon`                           |
+| `Password`    | `The password you provide when you enter SAP Logon`                           |
+| `Ashost`      | `The application server host to conect to, this should be the message server` |
 
 
 
