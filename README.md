@@ -27,7 +27,7 @@ This has multiple purposes that go from fetching data to analyzing purposes.
 #### 6. The Python Installer will launch and follow the steps as mentioned in the installer. It´s very important to make sure to have the option 'add python 3.x to path' ticked.
 #### 7. Once the installation completes, make sure that the version of python from the command prompt is the same as the one installed. Type the following instruction in the command prompt to see the version of the python installed:
 ```bash
-  python –version
+  python --version
 ```
 
 ### SAP NWRFCSDK installation:
