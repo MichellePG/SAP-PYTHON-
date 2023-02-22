@@ -109,3 +109,5 @@ Some references that I followed to implemment the conection.
 
 - [PyRFC](https://github.com/SAP/PyRFC)
 
+- [bScripting SAP GUI with python](https://setevalapinsap.com/2020/12/scripting-sap-with-python-%F0%9F%99%85%E2%80%8D%E2%99%82%EF%B8%8F%F0%9F%90%8D)
+
