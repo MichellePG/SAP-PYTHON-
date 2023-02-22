@@ -76,7 +76,9 @@ Now the final step is to go to C:\nwrfcsdk\bin and double-click on rfcexec.exe f
 
 I have written a code here to connect to SAP ECC system. The archive is called 'Bottle_PyRFC'. 
 You need to copy and paste the code as it is in the Jupyter notebook screen that you opened previously and then run it from the Jupyter screen.
-The code work this way: First it opens a local html web that redirects you to the login page, this page has direct connection with the SAP server.
+The code work this way: 
+
+First it opens a local html web that redirects you to the login page, this page has direct connection with the SAP server.
 In this page called 'Python (Bottle) & SAP - using PyRFC' you need to fill out the parameters to login. A brief explanation of each parameter:
 
 | Parameter     | Explanation     |
@@ -86,6 +88,16 @@ In this page called 'Python (Bottle) & SAP - using PyRFC' you need to fill out t
 | `Ashost`      | `The application server host to conect to, this should be the message server` |
 
 
+After you login the page is going to redirect you to another one in which you will have to choose the function you want.
 
+1. Read tables: where you can enter a table and it will give you the table displayed and also the option to download said table in text or excel format.
+2. Record transaction: where you can record a transaction just like in sap.
+3. Transaction: where you can create a transaction.
+
+
+## Conclusion
+
+With a simple python editing tool like Jupyter Notebook, you’ll be able to successfully fetch the data from the SAP Tables, record transactions and also create transaction in a local host web server.
+Now with the data you can display results or use the computational abilities of python for data analytics/ predictive analytics and send the results back to SAP ECC.
 
 
