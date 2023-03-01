@@ -74,12 +74,12 @@ Now the final step is to go to C:\nwrfcsdk\bin and double-click on rfcexec.exe f
 
 ## Code Implementation
 
-I have written a code here to connect to SAP ECC system. The archive is called 'SAP_PYTHON_CON'. 
+I have written a code here to connect to SAP ECC system. The archive is called 'Bottle_PyRFC_V2'. 
 You need to copy and paste the code as it is in the Jupyter notebook screen that you opened previously and then run it from the Jupyter screen.
 The code works this way: 
 
-First, it opens a local HTML web that redirects you to the login page.
-On this page called 'Login to SAP' you need to fill out the parameters to login. A brief explanation of each parameter:
+First, when you run it Jupyter it send you to a local HTML web that redirects you to the login page.
+On this page called 'Python (Bottle) & SAP - using PyRFC' you need to fill out the parameters to login. A brief explanation of each parameter:
 
 | Parameter                   | Explanation     |
 | :-------------------------- | :-------------- |
@@ -93,7 +93,8 @@ On this page called 'Login to SAP' you need to fill out the parameters to login.
 After you login, the page is going to redirect you to another one in which you will have to choose the function you want.
 
 1. Read tables: where you can enter a table and it will give you the table displayed and also the option to download said table in text or excel format.
-2. Make a transaction (): 
+2. Transaction 1: where you can enter a material number to display a material master record. 
+3. Transaction 2: where you can enter a saler order.
 
 ## Examples
 
