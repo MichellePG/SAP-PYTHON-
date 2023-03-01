@@ -1,0 +1,367 @@
+import bottle
+import pyrfc
+from bottle import Bottle, request, template, static_file, response, redirect, route, get, post, run
+from bottle import static_file
+from pyrfc import Connection, ABAPApplicationError, LogonError, ABAPRuntimeError
+import pathlib
+from pathlib import Path
+from ipywidgets import Layout, Box, Dropdown, Label
+from io import BytesIO
+import pandas as pd
+import pandas as pd
+import io
+import base64
+
+app = Bottle()
+bottle.app().catchall = False
+
+#login 
+@get('/')
+def login_form():
+    return '''<DIV ALIGN='CENTER'><BR><BR><BR><BR>
+                <H1>Python (Bottle) & SAP - using PyRFC</H1>
+                <BR><TABLE BORDER='1' BORDERCOLOR='BLUE'
+                     BGCOLOR='WHITE'>
+                <FORM METHOD='POST'>
+                <TR><TD>User</TD><TD>
+                <INPUT TYPE='TEXT' NAME='User'></TD></TR>
+                <TR><TD>Password</TD>
+                <TD><INPUT TYPE='PASSWORD' NAME='Passwd'></TD></TR>
+                <TR><TD>Ashost</TD>
+                <TD><INPUT TYPE='TEXT' NAME='Ashost'></TD></TR>
+                <TR><TD>System number</TD>
+                <TD><INPUT TYPE='TEXT' NAME='sysnr'></TD></TR>
+                <TR><TD>Client</TD>
+                <TD><INPUT TYPE='TEXT' NAME='client'></TD></TR>
+                <TR><TD COLSPAN='2' ALIGN='CENTER'>
+                <INPUT TYPE='SUBMIT' value='Log In' NAME='LOG_IN'>
+                <INPUT TYPE='RESET' value='Clear'></TD></TR>
+                </FORM>
+                <TABLE>
+              </DIV>'''
+ 
+#login    
+@post('/')
+def login_submit():
+    global conn
+
+    try:
+        user = request.forms.get('User')
+        passwd = request.forms.get('Passwd')
+        ashost = request.forms.get('Ashost')
+        sysnr = request.forms.get('sysnr')
+        client = request.forms.get('client')
+        
+        abap_system = {
+            'user'      : user,
+            'passwd'    : passwd,
+            'ashost'    : ashost,
+            'sysnr'     : sysnr,
+            'client'    : client,
+            'lang'      : 'EN'
+        }
+        
+        conn = Connection(**abap_system)
+        conn.alive
+        True    
+        redirect("/choosefunction")
+    except LogonError:
+        redirect("/error")
+
+    except ABAPApplicationError as ex:
+        print(f"ABAP Application Error: {ex.key} - {ex.message}")
+        
+        
+@get('/choosefunction')
+def choose_function():
+    return '''<!DOCTYPE html>
+              <html>
+              <head>
+                  <meta name="viewport" content="width=device-width, initial-scale=1">
+                  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+                  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+              </head>
+              <body>
+
+              <div class="container">
+                  <h2>Functions</h2>
+                  <p>Choose the function to use please.</p>                                    
+                  <div class="dropdown center">
+                      <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Choose
+                      <span class="caret"></span></button>
+                      <ul class="dropdown-menu text-center">
+                          <li><a href="http://localhost:8080/choose">Read Table</a></li>
+                          <li><a href="http://localhost:8080/TRANdismatmasrec">Transaction 1: Display a material master record</a></li>
+                          <li><a href="http://localhost:8080/TRANcresalord">Transaction 2: Creating a Sales Order</a></li>
+                      </ul>
+                  </div>
+              </div>
+              </body>
+              </html>'''
+
+
+@get('/error')
+def error():
+    output = "<div align='center'><h1>Invalid username or password</h1></div>"
+    return output
+
+#FROM THIS POINT THE CODE IS FOR READING TABLES FUNCTION AND DOWNLOADING SAID TABLES------------------------
+
+@get('/choose')
+def choose_table():
+    return '''<CENTER>
+                <FORM METHOD='POST'>
+                <h2>Input the table you want to read please.</h2>
+                <INPUT TYPE='TEXT' NAME='Table'><BR>
+                <INPUT TYPE='SUBMIT' value='Show Table'
+                 NAME='show_table'>
+                </FORM>
+              </CENTER>'''
+
+
+    
+@post('/choose')
+def show_table():
+    global conn
+    fields = []
+    fields_name = []
+    counter = 0
+    table = request.forms.get('Table')
+    try:
+        tables = conn.call("RFC_READ_TABLE", QUERY_TABLE=table, DELIMITER='|')
+        data_fields = tables["DATA"]
+        data_names = tables["FIELDS"]
+        long_fields = len(data_fields)
+        long_names = len(data_names)
+
+        for line in range(0, long_fields):
+            fields.append(data_fields[line]["WA"].strip())
+        for line in range(0, long_names):
+            fields_name.append(data_names[line]["FIELDNAME"].strip())
+
+        output = "<div align='center'><h1>%s</h1></center>" % table
+
+        output += "<table border='1'><tr>"
+        for line in range(0, long_names):
+            field_name = fields_name[line]
+            output += "<th bgcolor='#B8D5F5'> %s </th>" % field_name
+        output += "</tr>"
+        for line in range(0, long_fields):
+            counter += 1
+            if(counter % 2 == 0):
+                output += "<tr bgcolor='#DCE1E5'>"
+            else:
+                output += "<tr>"
+            data_split = fields[line].split("|")
+            for line in range(0, long_names):
+                output += "<td> %s </td>" % data_split[line]
+            output += "</tr>"
+        output += "</table>"
+
+        # Add download buttons
+        output += '''
+            <br>
+            <a href="/download_txt?table=%s">Download as TXT</a>
+            <br>
+            <a href="/download_excel?table=%s">Download as Excel</a>
+        ''' % (table, table)
+
+    except ABAPApplicationError:
+        output = "<div align='center'><h1>Table %s was not found</h1></div>" % table
+        return output
+
+    return output
+    conn.close()
+
+# Download table as txt file
+@route('/download_txt')
+def download_txt():
+    table = request.query.table
+    try:
+        tables = conn.call("RFC_READ_TABLE", QUERY_TABLE=table, DELIMITER='|')
+        data_fields = tables["DATA"]
+        data_names = tables["FIELDS"]
+        long_fields = len(data_fields)
+        long_names = len(data_names)
+
+        txt_output = ''
+        for line in range(0, long_fields):
+            txt_output += data_fields[line]["WA"].strip() + '\n'
+
+        response.content_type = 'text/plain'
+        response.headers['Content-Disposition'] = 'attachment; filename=%s.txt' % table
+        return txt_output
+
+    except ABAPApplicationError:
+        output = "<div align='center'><h1>Table %s was not found</h1></div>" % table
+        return output
+    
+
+# Download table as excel file
+@route('/download_excel')
+def download_excel():
+    table = request.query.table
+    try:
+        tables = conn.call("RFC_READ_TABLE", QUERY_TABLE=table, DELIMITER='|')
+        data_fields = tables["DATA"]
+        data_names = tables["FIELDS"]
+        long_fields = len(data_fields)
+        long_names = len(data_names)
+
+        fields_name = []
+        for line in range(0, long_names):
+            fields_name.append(data_names[line]["FIELDNAME"].strip())
+
+        df = pd.DataFrame(columns=fields_name)
+        for line in range(0, long_fields):
+            data_split = data_fields[line]["WA"].split("|")
+            df.loc[line] = data_split
+
+        # Convert dataframe to Excel
+        output = io.BytesIO()
+        writer = pd.ExcelWriter(output, engine='xlsxwriter')
+        df.to_excel(writer, sheet_name='Sheet1', index=False)
+        writer.save()
+        excel_output = output.getvalue()
+
+        response.content_type = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        response.headers['Content-Disposition'] = 'attachment; filename=%s.xlsx' % table
+        return excel_output
+
+    except ABAPApplicationError:
+        output = "<div align='center'><h1>Table %s was not found</h1></div>" % table
+        return output
+    
+#THIS IS THE END OF THE CODE FOR READING TABLES------------------------------------------------------------    
+
+#FROM THIS POINT THE CODE IS FOR TRANSACTION 1: Display a material master record---------------------------
+@get('/TRANdismatmasrec')
+def define_material():
+    return '''<CENTER>
+                <FORM METHOD='POST'>
+                <h2>Input the material number.</h2>
+                <INPUT TYPE='TEXT' NAME='Material'><BR>
+                <INPUT TYPE='SUBMIT' value='Define Material'
+                 NAME='define_material'>
+                </FORM>
+              </CENTER>'''
+
+
+@post('/TRANdismatmasrec')
+def display_material():
+    global conn
+    material = request.forms.get('Material')
+    # Define the input parameters for the transaction
+    params = {
+        'material': material
+    }
+    result = conn.call('BAPI_MATERIAL_GET_DETAIL', MATERIAL=params['material'])
+
+    # Print the material description from the output parameters
+    return result['MATERIALDESCRIPTION']
+        
+    
+#THIS IS THE END OF THE CODE FOR TRANSACTION 1: Display a material master record----------------------------
+
+
+#FROM THIS POINT THE CODE IS FOR TRANSACTION 2: Creating a Sales Order--------------------------------------
+@get('/TRANcresalord')
+def sales_order():
+    return '''<DIV ALIGN='CENTER'><BR><BR><BR><BR>
+                <H1>Creating a Sales Order</H1>
+                <BR><TABLE BORDER='1' BORDERCOLOR='BLUE'
+                     BGCOLOR='WHITE'>
+                <FORM METHOD='POST'>
+                <TR><TD>Sales Organization</TD><TD>
+                <INPUT TYPE='TEXT' NAME='sales_organization'></TD></TR>
+                <TR><TD>Distribution Channel</TD>
+                <TD><INPUT TYPE='TEXT' NAME='distribution_channel'></TD></TR>
+                <TR><TD>Division</TD>
+                <TD><INPUT TYPE='TEXT' NAME='division'></TD></TR>
+                <TR><TD>Sold to party</TD>
+                <TD><INPUT TYPE='TEXT' NAME='sold_to_party'></TD></TR>
+                <TR><TD>Currency</TD>
+                <TD><INPUT TYPE='TEXT' NAME='currency'></TD></TR>
+                <TR><TD>Order Reason</TD>
+                <TD><INPUT TYPE='TEXT' NAME='order_reason'></TD></TR>
+                <TR><TD>Purchase order number</TD>
+                <TD><INPUT TYPE='TEXT' NAME='purchase_order_number'></TD></TR>
+                <TR><TD>Material</TD><TD>
+                <INPUT TYPE='TEXT' NAME='material'></TD></TR>                
+                <TR><TD>Quantity</TD><TD>
+                <INPUT TYPE='TEXT' NAME='quantity'></TD></TR>                  
+                <TR><TD>Net_price</TD><TD>
+                <INPUT TYPE='TEXT' NAME='net_price'></TD></TR>                  
+                <TR><TD>Material 2</TD><TD>
+                <INPUT TYPE='TEXT' NAME='material2'></TD></TR>                
+                <TR><TD>Quantity</TD><TD>
+                <INPUT TYPE='TEXT' NAME='quantity2'></TD></TR>                  
+                <TR><TD>Net_price</TD><TD>
+                <INPUT TYPE='TEXT' NAME='net_price2'></TD></TR> 
+                <TR><TD COLSPAN='2' ALIGN='CENTER'>
+                <INPUT TYPE='SUBMIT' value='SUBMIT ' NAME='SUBMIT'>
+                <INPUT TYPE='RESET' value='Clear'></TD></TR>
+                </FORM>
+                <TABLE>
+              </DIV>'''
+
+    
+@post('/TRANcresalord')
+def sales():
+    global conn
+
+    try:
+        sales = request.forms.get('sales_organization')
+        distrib = request.forms.get('distribution_channel')
+        div = request.forms.get('division')
+        stoparty = request.forms.get('sold_to_party')
+        currency = request.forms.get('currency')
+        orderreason = request.forms.get('order_reason')
+        purch = request.forms.get('purchase_order_number')
+        mat = request.forms.get('material')
+        quan = request.forms.get('quantity')
+        net = request.forms.get('net_price')
+        mat2 = request.forms.get('material2')
+        quan2 = request.forms.get('quantity2')
+        net2 = request.forms.get('net_price2')        
+
+        order_header = {
+                        'sales_organization': sales,
+                        'distribution_channel': distrib,
+                        'division': div,
+                        'sold_to_party': stoparty,
+                        'currency': currency,
+                        'order_reason': orderreason,
+                        'purchase_order_number': purch
+        }
+        
+        order_items = [
+            {
+            'material': mat,
+            'quantity': quan,
+            'net_price': net
+            },
+            {
+            'material': mat2,
+            'quantity': quan2,
+            'net_price': net2
+            }
+        ]
+        
+        
+        # Call the BAPI function modules to create the sales order
+        order_number = conn.call('BAPI_SALESORDER_CREATEFROMDAT2', ORDER_HEADER_IN=order_header, ORDER_ITEMS_IN=order_items)
+
+        # Print the sales order number
+        pr = print('Created sales order:', order_number['SALESDOCUMENT'])
+        return pr
+    
+    except ABAPApplicationError:
+        output = "<div align='center'><h1>Table %s was not found</h1></div>" % table
+        return output
+    
+    
+#THIS IS THE END OF THE CODE FOR TRANSACTION 2: Creating a Sales Order------------------------------   
+            
+run(host='localhost', port=8080, debug=True)
