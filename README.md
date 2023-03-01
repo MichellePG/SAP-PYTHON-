@@ -4,7 +4,7 @@ Guide to connect Python with SAP.
 
 ## Introduction:
 
-Simple guide to establish a connection with SAP's system using python code and trying to fetch the SAP table contents by calling the Function Module RFC_READ_TABLE.
+Simple guide to establish a connection with SAP's system using python code.
 This has multiple purposes that go from fetching data to analyzing purposes.
 
 ## Requirements:
@@ -74,30 +74,35 @@ Now the final step is to go to C:\nwrfcsdk\bin and double-click on rfcexec.exe f
 
 ## Code Implementation
 
-I have written a code here to connect to SAP ECC system. The archive is called 'Bottle_PyRFC'. 
+I have written a code here to connect to SAP ECC system. The archive is called 'SAP_PYTHON_CON'. 
 You need to copy and paste the code as it is in the Jupyter notebook screen that you opened previously and then run it from the Jupyter screen.
 The code works this way: 
 
-First, it opens a local HTML web that redirects you to the login page, this page has a direct connection with the SAP server.
-On this page called 'Python (Bottle) & SAP - using PyRFC' you need to fill out the parameters to login. A brief explanation of each parameter:
+First, it opens a local HTML web that redirects you to the login page.
+On this page called 'Login to SAP' you need to fill out the parameters to login. A brief explanation of each parameter:
 
-| Parameter     | Explanation     |
-| :------------ | :-------------- |
-| `User`        | `The username you provide when you enter SAP Logon`                           |
-| `Password`    | `The password you provide when you enter SAP Logon`                           |
-| `Ashost`      | `The application server host to conect to, this should be the message server` |
+| Parameter                   | Explanation     |
+| :-------------------------- | :-------------- |
+| `Application Server`        | `The application server host to conect to, this should be the message server`  |
+| `System Number`             | `The System Number you provide (usually 00) when you enter SAP Logon`          |
+| `Client`                    | `The Client number you provide when you enter SAP Logon. Eg: 250,400,500,etc ` |
+| `Username`                  | `The username you provide when you enter SAP Logon`                            |
+| `Password`                  | `The password you provide when you enter SAP Logon`                            |
 
 
 After you login, the page is going to redirect you to another one in which you will have to choose the function you want.
 
 1. Read tables: where you can enter a table and it will give you the table displayed and also the option to download said table in text or excel format.
-2. Record transaction: where you can record a transaction just like in sap.
-3. Transaction: where you can create a transaction.
+2. Make a transaction (): 
 
+## Examples
+
+Examples on hw to write some SAP function in python language so they can be integrated to the code are in the examples.py archive in this repository.
 
 ## Conclusion
 
-With a simple python editing tool like Jupyter Notebook, you’ll be able to successfully fetch the data from the SAP Tables, record transactions, and also create transaction in a local host web server.
+With a simple python editing tool like Jupyter Notebook, you’ll be able to successfully fetch the data from the SAP Tables and also create different transactions in a local host web server.
+
 Now with the data, you can display results or use the computational abilities of python for data analytics/ predictive analytics and send the results back to SAP ECC.
 
 
