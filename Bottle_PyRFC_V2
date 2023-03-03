@@ -8,7 +8,6 @@ from pathlib import Path
 from ipywidgets import Layout, Box, Dropdown, Label
 from io import BytesIO
 import pandas as pd
-import pandas as pd
 import io
 import base64
 
