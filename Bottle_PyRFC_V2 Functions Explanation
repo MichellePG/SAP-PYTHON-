@@ -1,0 +1,28 @@
+#Here's a explanation of what each function does in Bottle_PyRFC_V2:
+
+#login_form() - This function displays a login form to connect to an SAP system. It shows an HTML page with fields for the SAP user, 
+#password, application server host, system number, and client.
+
+#login_submit() - This function receives the login form data and attempts to connect to the SAP system using PyRFC. If the connection is successful, 
+#it saves the PyRFC connection object in the global variable conn and redirects the user to the function selection page. If the connection fails, it 
+#redirects the user to an error page.
+
+#choose_function() - This function displays a page with a dropdown menu for the user to choose one of three functions. The options are Read Table, 
+#Transaction 1: Display a Material Master Record, and Transaction 2: Creating a Sales Order.
+
+#error() - This function displays an error message if the login credentials provided are invalid.
+
+#choose_table() - This function displays a form to enter the name of an SAP table that the user wants to read.
+
+#show_table() - This function reads the data from the SAP table that the user entered and displays it in an HTML table. It uses the PyRFC 
+#function RFC_READ_TABLE to get the table data and the Bottle function template() to render an HTML page with the table data.
+
+#download_txt(): This function downloads a text file based on user input.
+
+#define_material(): This function defines a material in SAP based on user input.
+
+#display_material(): This function displays information about a material in SAP based on user input. 
+
+#sales_order(): This function creates a sales order in SAP based on user input. 
+
+#sales(): This function displays sales-related information in SAP based on user input.
